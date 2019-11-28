@@ -1,8 +1,10 @@
 
 #include <iostream>
+#include <string>
 using namespace std;
 
 void printArr(int arr[], int n) {
+	
 	for (int i = 0; i < n; i++) {
 		cout << arr[i] <<" ";
 	}
@@ -51,8 +53,58 @@ void exercise2_1_1() {
 	std::cout << std::endl;
 }
 
+
+void merge_sort(int arr[],int p, int r) {
+	int q = (p + r) / 2;
+	int lenL = q - p + 1;
+	int lenR = r - q;
+	
+	if (lenL != 1 || lenR != 1) {
+		merge_sort(arr, p, q);
+		merge_sort(arr, q + 1,r);
+	}
+
+	int L[1000];
+	int R[1000];
+	for (int i = p, j = 0; i < p + lenL; i++, j++) {
+		L[j] = arr[i];
+	}
+	for (int i = q+1, j = 0; i < q + lenR + 1; i++, j++) {
+		R[j] = arr[i];
+	}
+	//遍历数组，找更小的
+	int i = 0, j = 0, k = p;
+	while (i<lenL&&j<lenR) {
+		if (R[j] > L[i]) {
+			arr[k] = L[i];
+			i++;
+			k++;
+		}
+		else {
+			arr[k] = R[j];
+			j++;
+			k++;
+		}
+	}
+		//某个数组先被遍历完，把另一个数组直接放进去；
+	if (i < lenL) {
+		arr[k++] = L[i++];
+	}
+	if (j < lenR) {
+		arr[k++] = R[j++];
+	}
+	printArr(arr, 8);
+}
+
+void exercise2_3_1() {
+	//归并排序
+	std::cout << "Exercise2.3-1\n=============\n归并排序" << std::endl;
+	int arr[] = { 3,41,52,26,38,57,9,49 };
+	merge_sort(arr, 0, 7);
+}
+
 void run() {
-	exercise2_1_2();
+	exercise2_3_1();
 }
 
 int main() {
